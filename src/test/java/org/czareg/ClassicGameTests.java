@@ -16,17 +16,28 @@ class ClassicGameTests {
 
     @Test
     void testGutterGame() {
-        for (int i = 0; i < 20; i++) {
-            game.roll(0);
-        }
+        rollMany(20, 0);
         assertEquals(0, game.score());
     }
 
     @Test
     void testAllOnesGame() {
-        for (int i = 0; i < 20; i++) {
-            game.roll(1);
-        }
+        rollMany(20, 1);
         assertEquals(20, game.score());
+    }
+
+    @Test
+    void testOneSpareGame() {
+        game.roll(5);
+        game.roll(5); // spare
+        game.roll(3); // doubled
+        rollMany(17, 0);
+        assertEquals(16, game.score());
+    }
+
+    void rollMany(int times, int pins) {
+        for (int i = 0; i < times; i++) {
+            game.roll(pins);
+        }
     }
 }
