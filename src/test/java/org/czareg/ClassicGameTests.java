@@ -21,4 +21,12 @@ class ClassicGameTests {
         }
         assertEquals(0, game.score());
     }
+
+    @Test
+    void testAllOnesGame() {
+        for (int i = 0; i < 20; i++) {
+            game.roll(1);
+        }
+        assertEquals(20, game.score());
+    }
 }
