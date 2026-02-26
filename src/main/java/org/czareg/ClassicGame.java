@@ -1,38 +1,34 @@
 package org.czareg;
 
+import java.util.ArrayList;
+import java.util.List;
+
 class ClassicGame implements Game {
 
     static final int MAX_SCORE_PER_FRAME = 10;
     static final int ROLLS_PER_GAME = 21;
 
-    int currentFrameIndex = 0;
-    int[] frames = new int[ROLLS_PER_GAME];
+    List<Integer> rolls = new ArrayList<>(ROLLS_PER_GAME);
 
     @Override
     public void roll(int pins) {
-        frames[currentFrameIndex] = pins;
-        if (pins == MAX_SCORE_PER_FRAME && !isLastFrame()) {
-            currentFrameIndex += 2;
-        } else {
-            currentFrameIndex++;
-        }
-    }
-
-    private boolean isLastFrame() {
-        return currentFrameIndex == 18 || currentFrameIndex == 19 || currentFrameIndex == 20;
+        rolls.addLast(pins);
     }
 
     @Override
     public int score() {
         int result = 0;
+        int frameIndex = 0;
         for (int frame = 0; frame < 10; frame++) {
-            int frameIndex = frame * 2;
             if (isStrike(frameIndex)) {
                 result = result + (MAX_SCORE_PER_FRAME + nextTwoRollScores(frameIndex));
+                frameIndex++;
             } else if (isSpare(frameIndex)) {
                 result = result + (MAX_SCORE_PER_FRAME + nextRollScore(frameIndex));
+                frameIndex += 2;
             } else {
-                result = result + frames[frameIndex] + getRollOrMax(frameIndex + 1);
+                result = result + getRollOrMax(frameIndex) + getRollOrMax(frameIndex + 1);
+                frameIndex += 2;
             }
         }
         return result;
@@ -43,7 +39,7 @@ class ClassicGame implements Game {
     }
 
     private int nextTwoRollScores(int frameIndex) {
-        return nextRollScore(frameIndex) + (isStrike(frameIndex + 4) ? MAX_SCORE_PER_FRAME : getRollOrMax(frameIndex + 3));
+        return getRollOrMax(frameIndex + 1) + (isStrike(frameIndex + 2) ? MAX_SCORE_PER_FRAME : getRollOrMax(frameIndex + 2));
     }
 
     private boolean isSpare(int frameIndex) {
@@ -55,6 +51,6 @@ class ClassicGame implements Game {
     }
 
     private int getRollOrMax(int frameIndex) {
-        return frameIndex < frames.length ? frames[frameIndex] : MAX_SCORE_PER_FRAME;
+        return frameIndex < rolls.size() ? rolls.get(frameIndex) : MAX_SCORE_PER_FRAME;
     }
 }
