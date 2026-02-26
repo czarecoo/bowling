@@ -44,6 +44,12 @@ class ClassicGameTests {
         assertEquals(24, game.score());
     }
 
+    @Test
+    void testPerfectGame() {
+        rollMany(12,10);
+        assertEquals(300, game.score());
+    }
+
     void rollMany(int times, int pins) {
         for (int i = 0; i < times; i++) {
             game.roll(pins);
