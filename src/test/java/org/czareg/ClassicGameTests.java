@@ -35,6 +35,15 @@ class ClassicGameTests {
         assertEquals(16, game.score());
     }
 
+    @Test
+    void testOneStrikeGame() {
+        game.roll(10); // strike
+        game.roll(3); // doubled
+        game.roll(4); // doubled
+        rollMany(16, 0);
+        assertEquals(24, game.score());
+    }
+
     void rollMany(int times, int pins) {
         for (int i = 0; i < times; i++) {
             game.roll(pins);
