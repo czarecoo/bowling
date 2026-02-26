@@ -10,47 +10,51 @@ class ClassicGame implements Game {
 
     @Override
     public void roll(int pins) {
-        if (pins == MAX_SCORE_PER_FRAME) {
-            frames[currentFrameIndex] = MAX_SCORE_PER_FRAME;
+        frames[currentFrameIndex] = pins;
+        if (pins == MAX_SCORE_PER_FRAME && !isLastFrame()) {
             currentFrameIndex += 2;
         } else {
-            frames[currentFrameIndex] = pins;
             currentFrameIndex++;
         }
+    }
+
+    private boolean isLastFrame() {
+        return currentFrameIndex == 18 || currentFrameIndex == 19 || currentFrameIndex == 20;
     }
 
     @Override
     public int score() {
         int result = 0;
-        int frameIndex = 0;
-        while (frameIndex < currentFrameIndex) {
+        for (int frame = 0; frame < 10; frame++) {
+            int frameIndex = frame * 2;
             if (isStrike(frameIndex)) {
-                result = (MAX_SCORE_PER_FRAME + nextTwoRollScores(frameIndex));
-                frameIndex += 2;
+                result = result + (MAX_SCORE_PER_FRAME + nextTwoRollScores(frameIndex));
             } else if (isSpare(frameIndex)) {
-                result = (MAX_SCORE_PER_FRAME + nextRollScore(frameIndex));
-                frameIndex += 2;
+                result = result + (MAX_SCORE_PER_FRAME + nextRollScore(frameIndex));
             } else {
-                result += frames[frameIndex];
-                frameIndex++;
+                result = result + frames[frameIndex] + getRollOrMax(frameIndex + 1);
             }
         }
         return result;
     }
 
     private boolean isStrike(int frameIndex) {
-        return frames[frameIndex] == MAX_SCORE_PER_FRAME;
+        return getRollOrMax(frameIndex) == MAX_SCORE_PER_FRAME;
     }
 
     private int nextTwoRollScores(int frameIndex) {
-        return nextRollScore(frameIndex) + (isStrike(frameIndex + 3)? MAX_SCORE_PER_FRAME: frames[frameIndex+3]);
+        return nextRollScore(frameIndex) + (isStrike(frameIndex + 4) ? MAX_SCORE_PER_FRAME : getRollOrMax(frameIndex + 3));
     }
 
     private boolean isSpare(int frameIndex) {
-        return (frames[frameIndex] + frames[frameIndex + 1]) == MAX_SCORE_PER_FRAME;
+        return (getRollOrMax(frameIndex) + getRollOrMax(frameIndex + 1)) == MAX_SCORE_PER_FRAME;
     }
 
     private int nextRollScore(int frameIndex) {
-        return frames[frameIndex + 2];
+        return getRollOrMax(frameIndex + 2);
+    }
+
+    private int getRollOrMax(int frameIndex) {
+        return frameIndex < frames.length ? frames[frameIndex] : MAX_SCORE_PER_FRAME;
     }
 }
