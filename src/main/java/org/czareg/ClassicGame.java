@@ -43,7 +43,7 @@ class ClassicGame implements Game {
     }
 
     private int nextTwoRollScores(int frameIndex) {
-        return 0;
+        return nextRollScore(frameIndex) + (isStrike(frameIndex + 3)? MAX_SCORE_PER_FRAME: frames[frameIndex+3]);
     }
 
     private boolean isSpare(int frameIndex) {
