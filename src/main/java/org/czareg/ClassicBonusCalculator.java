@@ -39,7 +39,7 @@ public class ClassicBonusCalculator implements BonusRollCalculator {
             case OpenFrame openFrame -> openFrame.firstRoll();
             case SpareFrame spareFrame -> spareFrame.firstRoll();
             case StrikeFrame strikeFrame -> strikeFrame.roll();
-            case TenthFrame tenthFrame -> tenthFrame.rolls().getFirst();
+            case TenthFrame tenthFrame -> tenthFrame.firstRoll();
             case UnfinishedFrame unfinishedFrame -> unfinishedFrame.firstRoll();
         };
     }
@@ -51,19 +51,9 @@ public class ClassicBonusCalculator implements BonusRollCalculator {
             case SpareFrame spareFrame -> spareFrame.secondRoll();
             case StrikeFrame ignored -> {
                 Frame nextFrame = getNextFrame(frame);
-                if (nextFrame == null) {
-                    yield 0;
-                }
                 yield getFirstRollFrom(nextFrame);
             }
-            case TenthFrame tenthFrame -> {
-                List<Integer> rolls = tenthFrame.rolls();
-                if (rolls.size() > 1) {
-                    yield rolls.get(1);
-                } else {
-                    yield 0;
-                }
-            }
+            case TenthFrame tenthFrame -> tenthFrame.secondRoll().orElse(0);
             case UnfinishedFrame ignored -> 0;
         };
     }

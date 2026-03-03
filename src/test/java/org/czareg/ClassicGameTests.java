@@ -193,6 +193,13 @@ class ClassicGameTests {
         );
     }
 
+    @Test
+    void testScoreNeverGoesAboveMaxLimit() {
+        rollMany(20, 10);
+
+        assertEquals(300, game.score());
+    }
+
     void rollMany(int times, int pins) {
         for (int i = 0; i < times; i++) {
             game.roll(pins);
