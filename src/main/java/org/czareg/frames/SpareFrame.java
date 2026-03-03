@@ -13,10 +13,16 @@ public final class SpareFrame implements Frame {
     }
 
     @Override
-    public int score(BonusRollCalculator bonusRollCalculator) {
-        return firstRoll + secondRoll + bonusRollCalculator.next(this);
+    public int baseScore() {
+        return firstRoll + secondRoll;
     }
 
+    @Override
+    public int bonusScore(BonusRollCalculator bonusRollCalculator) {
+        return bonusRollCalculator.next(this);
+    }
+
+    @Override
     public int firstRoll() {
         return firstRoll;
     }

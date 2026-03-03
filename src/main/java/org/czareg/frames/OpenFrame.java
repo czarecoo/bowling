@@ -13,10 +13,16 @@ public final class OpenFrame implements Frame {
     }
 
     @Override
-    public int score(BonusRollCalculator unused) {
+    public int baseScore() {
         return firstRoll + secondRoll;
     }
 
+    @Override
+    public int bonusScore(BonusRollCalculator unused) {
+        return 0;
+    }
+
+    @Override
     public int firstRoll() {
         return firstRoll;
     }

@@ -15,7 +15,7 @@ class ClassicGameTests {
 
     @BeforeEach
     void setUp() {
-        game = new ClassicGame();
+        game = ClassicGame.create();
     }
 
     @Test
@@ -188,16 +188,26 @@ class ClassicGameTests {
     @ValueSource(ints = {Integer.MIN_VALUE, -5, -1, 11, 20, Integer.MAX_VALUE})
     void testRollPinsOutOfRange(int invalidPins) {
         assertThrows(
-                IllegalArgumentException.class,
+                RuntimeException.class,
                 () -> game.roll(invalidPins)
         );
     }
 
     @Test
-    void testScoreNeverGoesAboveMaxLimit() {
-        rollMany(20, 10);
+    void testMaxThrowsAfterBadGame() {
+        rollMany(20, 1);
 
-        assertEquals(300, game.score());
+        assertThrows(RuntimeException.class, ()->game.roll(0));
+        assertThrows(RuntimeException.class, ()->game.roll(5));
+        assertThrows(RuntimeException.class, ()->game.roll(10));
+    }
+    @Test
+    void testMaxThrowsAfterInPerfectGame() {
+        rollMany(12, 10);
+
+        assertThrows(RuntimeException.class, ()->game.roll(0));
+        assertThrows(RuntimeException.class, ()->game.roll(5));
+        assertThrows(RuntimeException.class, ()->game.roll(10));
     }
 
     void rollMany(int times, int pins) {

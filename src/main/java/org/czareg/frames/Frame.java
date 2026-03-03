@@ -2,11 +2,17 @@ package org.czareg.frames;
 
 import org.czareg.api.BonusRollCalculator;
 
-public sealed interface Frame permits EmptyFrame, OpenFrame, SpareFrame, StrikeFrame, TenthFrame, UnfinishedFrame {
+public sealed interface Frame permits OpenFrame, SpareFrame, StrikeFrame, TenthFrame, UnfinishedFrame {
 
-    int score(BonusRollCalculator bonusRollCalculator);
+    int baseScore();
 
-    Frame EMPTY_FRAME = new EmptyFrame();
+    int bonusScore(BonusRollCalculator bonusRollCalculator);
+
+    int firstRoll();
+
+    default int score(BonusRollCalculator bonusRollCalculator) {
+        return baseScore() + bonusScore(bonusRollCalculator);
+    }
 
     int MAX_FRAMES = 10;
     int MAX_SCORE_PER_FRAME = 10;

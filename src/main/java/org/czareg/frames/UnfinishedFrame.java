@@ -11,8 +11,13 @@ public final class UnfinishedFrame implements Frame {
     }
 
     @Override
-    public int score(BonusRollCalculator unused) {
+    public int baseScore() {
         return firstRoll;
+    }
+
+    @Override
+    public int bonusScore(BonusRollCalculator unused) {
+        return 0;
     }
 
     public int firstRoll() {

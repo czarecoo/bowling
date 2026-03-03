@@ -4,6 +4,7 @@ import org.czareg.api.BonusRollCalculator;
 import org.czareg.frames.*;
 
 import java.util.List;
+import java.util.Optional;
 
 public class ClassicBonusCalculator implements BonusRollCalculator {
 
@@ -15,44 +16,31 @@ public class ClassicBonusCalculator implements BonusRollCalculator {
 
     @Override
     public int next(Frame frame) {
-        Frame nextFrame = getNextFrame(frame);
-        return getFirstRollFrom(nextFrame);
+        return getNextFrame(frame)
+                .map(Frame::firstRoll)
+                .orElse(0);
     }
 
     @Override
     public int nextNext(Frame frame) {
-        Frame nextFrame = getNextFrame(frame);
-        return getSecondRollFrom(nextFrame);
+        return getNextFrame(frame)
+                .map(this::getSecondRollFrom)
+                .orElse(0);
     }
 
-    private Frame getNextFrame(Frame frame) {
+    private Optional<Frame> getNextFrame(Frame frame) {
         int index = frames.indexOf(frame);
         if (index == -1 || index + 1 >= frames.size()) {
-            return Frame.EMPTY_FRAME;
+            return Optional.empty();
         }
-        return frames.get(index + 1);
-    }
-
-    private int getFirstRollFrom(Frame frame) {
-        return switch (frame) {
-            case EmptyFrame ignored -> 0;
-            case OpenFrame openFrame -> openFrame.firstRoll();
-            case SpareFrame spareFrame -> spareFrame.firstRoll();
-            case StrikeFrame strikeFrame -> strikeFrame.roll();
-            case TenthFrame tenthFrame -> tenthFrame.firstRoll();
-            case UnfinishedFrame unfinishedFrame -> unfinishedFrame.firstRoll();
-        };
+        return Optional.of(frames.get(index + 1));
     }
 
     private int getSecondRollFrom(Frame frame) {
         return switch (frame) {
-            case EmptyFrame ignored -> 0;
             case OpenFrame openFrame -> openFrame.secondRoll();
             case SpareFrame spareFrame -> spareFrame.secondRoll();
-            case StrikeFrame ignored -> {
-                Frame nextFrame = getNextFrame(frame);
-                yield getFirstRollFrom(nextFrame);
-            }
+            case StrikeFrame ignored -> next(frame);
             case TenthFrame tenthFrame -> tenthFrame.secondRoll().orElse(0);
             case UnfinishedFrame ignored -> 0;
         };

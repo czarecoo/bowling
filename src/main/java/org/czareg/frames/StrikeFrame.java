@@ -11,11 +11,17 @@ public final class StrikeFrame implements Frame {
     }
 
     @Override
-    public int score(BonusRollCalculator bonusRollCalculator) {
-        return roll + bonusRollCalculator.next(this) + bonusRollCalculator.nextNext(this);
+    public int baseScore() {
+        return roll;
     }
 
-    public int roll() {
+    @Override
+    public int bonusScore(BonusRollCalculator bonusRollCalculator) {
+        return bonusRollCalculator.next(this) + bonusRollCalculator.nextNext(this);
+    }
+
+    @Override
+    public int firstRoll() {
         return roll;
     }
 }
