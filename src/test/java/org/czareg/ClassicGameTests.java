@@ -3,8 +3,11 @@ package org.czareg;
 import org.czareg.api.Game;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ClassicGameTests {
 
@@ -179,6 +182,15 @@ class ClassicGameTests {
         game.roll(2);
 
         assertEquals(286, game.score());
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {Integer.MIN_VALUE, -5, -1, 11, 20, Integer.MAX_VALUE})
+    void testRollPinsOutOfRange(int invalidPins) {
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> game.roll(invalidPins)
+        );
     }
 
     void rollMany(int times, int pins) {

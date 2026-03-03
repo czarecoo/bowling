@@ -7,4 +7,7 @@ public sealed interface Frame permits EmptyFrame, OpenFrame, SpareFrame, StrikeF
     int score(BonusRollCalculator bonusRollCalculator);
 
     Frame EMPTY_FRAME = new EmptyFrame();
+
+    int MAX_FRAMES = 10;
+    int MAX_SCORE_PER_FRAME = 10;
 }
