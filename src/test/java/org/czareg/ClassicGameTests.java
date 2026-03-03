@@ -60,7 +60,7 @@ class ClassicGameTests {
 
     @Test
     void testPerfectGame() {
-        rollMany(12,10);
+        rollMany(12, 10);
 
         assertEquals(300, game.score());
     }
@@ -197,17 +197,27 @@ class ClassicGameTests {
     void testMaxThrowsAfterBadGame() {
         rollMany(20, 1);
 
-        assertThrows(RuntimeException.class, ()->game.roll(0));
-        assertThrows(RuntimeException.class, ()->game.roll(5));
-        assertThrows(RuntimeException.class, ()->game.roll(10));
+        assertThrows(RuntimeException.class, () -> game.roll(0));
+        assertThrows(RuntimeException.class, () -> game.roll(5));
+        assertThrows(RuntimeException.class, () -> game.roll(10));
     }
+
     @Test
     void testMaxThrowsAfterInPerfectGame() {
         rollMany(12, 10);
 
-        assertThrows(RuntimeException.class, ()->game.roll(0));
-        assertThrows(RuntimeException.class, ()->game.roll(5));
-        assertThrows(RuntimeException.class, ()->game.roll(10));
+        assertThrows(RuntimeException.class, () -> game.roll(0));
+        assertThrows(RuntimeException.class, () -> game.roll(5));
+        assertThrows(RuntimeException.class, () -> game.roll(10));
+    }
+
+    @Test
+    void testFrameSecondRollValidation() {
+        game.roll(9);
+
+        assertThrows(RuntimeException.class, () -> game.roll(2));
+        assertThrows(RuntimeException.class, () -> game.roll(5));
+        assertThrows(RuntimeException.class, () -> game.roll(10));
     }
 
     void rollMany(int times, int pins) {
