@@ -1,12 +1,12 @@
 package org.czareg;
 
-import org.czareg.api.RollsHandler;
+import org.czareg.api.Rolls;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-class ClassicRollsHandler implements RollsHandler {
+class ClassicRolls implements Rolls {
 
     private final List<Integer> rolls = new ArrayList<>();
 
@@ -34,5 +34,10 @@ class ClassicRollsHandler implements RollsHandler {
     @Override
     public List<Integer> rollsFrom(int index) {
         return Collections.unmodifiableList(rolls.subList(index, rolls.size()));
+    }
+
+    @Override
+    public void removeLastRoll() {
+        rolls.removeLast();
     }
 }

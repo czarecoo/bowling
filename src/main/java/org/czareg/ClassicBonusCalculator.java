@@ -1,12 +1,12 @@
 package org.czareg;
 
-import org.czareg.api.BonusRollCalculator;
+import org.czareg.api.BonusCalculator;
 import org.czareg.frames.*;
 
 import java.util.List;
 import java.util.Optional;
 
-public class ClassicBonusCalculator implements BonusRollCalculator {
+public class ClassicBonusCalculator implements BonusCalculator {
 
     final List<Frame> frames;
 

@@ -1,6 +1,7 @@
 package org.czareg.frames;
 
-import org.czareg.api.BonusRollCalculator;
+import org.czareg.api.BonusCalculator;
+import org.czareg.api.Game;
 
 public final class OpenFrame implements Frame {
 
@@ -8,6 +9,9 @@ public final class OpenFrame implements Frame {
     private final int secondRoll;
 
     public OpenFrame(int firstRoll, int secondRoll) {
+        if (firstRoll + secondRoll >= Game.MAX_SCORE_PER_FRAME) {
+            throw new IllegalStateException("Sum of rolls cannot be " + Game.MAX_SCORE_PER_FRAME + " or higher for open frame.");
+        }
         this.firstRoll = firstRoll;
         this.secondRoll = secondRoll;
     }
@@ -18,7 +22,7 @@ public final class OpenFrame implements Frame {
     }
 
     @Override
-    public int bonusScore(BonusRollCalculator unused) {
+    public int bonusScore(BonusCalculator unused) {
         return 0;
     }
 

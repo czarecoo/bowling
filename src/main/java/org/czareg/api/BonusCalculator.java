@@ -2,7 +2,7 @@ package org.czareg.api;
 
 import org.czareg.frames.Frame;
 
-public interface BonusRollCalculator {
+public interface BonusCalculator {
 
     int next(Frame frame);
 

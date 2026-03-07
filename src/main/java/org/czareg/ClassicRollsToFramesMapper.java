@@ -1,48 +1,49 @@
 package org.czareg;
 
-import org.czareg.api.RollsHandler;
+import org.czareg.api.Frames;
+import org.czareg.api.Game;
+import org.czareg.api.Rolls;
 import org.czareg.api.RollsToFramesMapper;
 import org.czareg.frames.*;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 class ClassicRollsToFramesMapper implements RollsToFramesMapper {
 
     @Override
-    public List<Frame> create(RollsHandler rollsHandler) {
+    public Frames map(Rolls rolls) {
         List<Frame> frames = new ArrayList<>();
 
         int rollIndex = 0;
 
-        for (int frame = 1; frame <= Frame.MAX_FRAMES; frame++) {
-            if (rollsHandler.doesNotHaveRoll(rollIndex)) {
+        for (int frame = 1; frame <= Game.MAX_FRAMES; frame++) {
+            if (rolls.doesNotHaveRoll(rollIndex)) {
                 break;
             }
 
-            if (frame == Frame.MAX_FRAMES) {
-                frames.add(new TenthFrame(rollsHandler.rollsFrom(rollIndex)));
+            if (frame == Game.MAX_FRAMES) {
+                frames.add(new TenthFrame(rolls.rollsFrom(rollIndex)));
                 break;
             }
 
-            int firstRoll = rollsHandler.getRollOrThrow(rollIndex);
+            int firstRoll = rolls.getRollOrThrow(rollIndex);
 
-            if (firstRoll == Frame.MAX_SCORE_PER_FRAME) {
+            if (firstRoll == Game.MAX_SCORE_PER_FRAME) {
                 frames.add(new StrikeFrame(firstRoll));
                 rollIndex += 1;
                 continue;
             }
 
             int nextRollIndex = rollIndex + 1;
-            if (rollsHandler.doesNotHaveRoll(nextRollIndex)) {
+            if (rolls.doesNotHaveRoll(nextRollIndex)) {
                 frames.add(new UnfinishedFrame(firstRoll));
                 break;
             }
 
-            int secondRoll = rollsHandler.getRollOrThrow(nextRollIndex);
+            int secondRoll = rolls.getRollOrThrow(nextRollIndex);
 
-            if (firstRoll + secondRoll == Frame.MAX_SCORE_PER_FRAME) {
+            if (firstRoll + secondRoll == Game.MAX_SCORE_PER_FRAME) {
                 frames.add(new SpareFrame(firstRoll, secondRoll));
             } else {
                 frames.add(new OpenFrame(firstRoll, secondRoll));
@@ -51,6 +52,6 @@ class ClassicRollsToFramesMapper implements RollsToFramesMapper {
             rollIndex += 2;
         }
 
-        return Collections.unmodifiableList(frames);
+        return new ClassicFrames(frames);
     }
 }

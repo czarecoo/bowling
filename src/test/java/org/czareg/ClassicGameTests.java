@@ -218,6 +218,9 @@ class ClassicGameTests {
         assertThrows(RuntimeException.class, () -> game.roll(2));
         assertThrows(RuntimeException.class, () -> game.roll(5));
         assertThrows(RuntimeException.class, () -> game.roll(10));
+        game.roll(1);
+
+        assertEquals(10, game.score());
     }
 
     void rollMany(int times, int pins) {

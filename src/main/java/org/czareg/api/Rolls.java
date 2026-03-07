@@ -2,7 +2,7 @@ package org.czareg.api;
 
 import java.util.List;
 
-public interface RollsHandler extends Rollable {
+public interface Rolls extends Rollable {
 
     boolean hasRoll(int index);
 
@@ -13,4 +13,6 @@ public interface RollsHandler extends Rollable {
     int getRollOrThrow(int index);
 
     List<Integer> rollsFrom(int index);
+
+    void removeLastRoll();
 }
