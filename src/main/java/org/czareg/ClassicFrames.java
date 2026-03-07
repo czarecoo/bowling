@@ -31,7 +31,7 @@ class ClassicFrames implements Frames {
 
     @Override
     public int score() {
-        BonusCalculator bonusCalculator = new ClassicBonusCalculator(frames);
+        BonusCalculator bonusCalculator = new ClassicBonusCalculator(this);
         return frames.stream()
                 .mapToInt(frame -> frame.score(bonusCalculator))
                 .sum();

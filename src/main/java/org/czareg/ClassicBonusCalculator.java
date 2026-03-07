@@ -1,39 +1,27 @@
 package org.czareg;
 
+import lombok.RequiredArgsConstructor;
 import org.czareg.api.BonusCalculator;
+import org.czareg.api.Frames;
 import org.czareg.frames.*;
 
-import java.util.List;
-import java.util.Optional;
-
+@RequiredArgsConstructor
 public class ClassicBonusCalculator implements BonusCalculator {
 
-    final List<Frame> frames;
-
-    public ClassicBonusCalculator(List<Frame> frames) {
-        this.frames = frames;
-    }
+    private final Frames frames;
 
     @Override
     public int next(Frame frame) {
-        return getNextFrame(frame)
+        return frames.getNextFrame(frame)
                 .map(Frame::firstRoll)
                 .orElse(0);
     }
 
     @Override
     public int nextNext(Frame frame) {
-        return getNextFrame(frame)
+        return frames.getNextFrame(frame)
                 .map(this::getSecondRollFrom)
                 .orElse(0);
-    }
-
-    private Optional<Frame> getNextFrame(Frame frame) {
-        int index = frames.indexOf(frame);
-        if (index == -1 || index + 1 >= frames.size()) {
-            return Optional.empty();
-        }
-        return Optional.of(frames.get(index + 1));
     }
 
     private int getSecondRollFrom(Frame frame) {

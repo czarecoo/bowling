@@ -29,7 +29,7 @@ class ClassicGame implements Game {
         try {
             frames = rollsToFramesMapper.map(rolls);
             score = frames.score();
-        } catch (RuntimeException e) {
+        } catch (IllegalStateException e) {
             rolls.removeLastRoll();
             throw e;
         }
