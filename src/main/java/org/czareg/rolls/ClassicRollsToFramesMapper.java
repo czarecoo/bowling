@@ -1,4 +1,4 @@
-package org.czareg;
+package org.czareg.rolls;
 
 import org.czareg.api.Frames;
 import org.czareg.api.Game;
@@ -9,7 +9,7 @@ import org.czareg.frames.*;
 import java.util.ArrayList;
 import java.util.List;
 
-class ClassicRollsToFramesMapper implements RollsToFramesMapper {
+public class ClassicRollsToFramesMapper implements RollsToFramesMapper {
 
     @Override
     public Frames map(Rolls rolls) {

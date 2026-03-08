@@ -8,7 +8,7 @@ public final class UnfinishedFrame implements Frame {
     private final int firstRoll;
 
     public UnfinishedFrame(int firstRoll) {
-        if (firstRoll >= 10) {
+        if (firstRoll >= Game.MAX_SCORE_PER_FRAME) {
             throw new IllegalStateException("Roll has to be below " + Game.MAX_SCORE_PER_FRAME + " for unfinished frame.");
         }
         this.firstRoll = firstRoll;

@@ -4,6 +4,9 @@ import org.czareg.api.Frames;
 import org.czareg.api.Game;
 import org.czareg.api.Rolls;
 import org.czareg.api.RollsToFramesMapper;
+import org.czareg.frames.ClassicFrames;
+import org.czareg.rolls.ClassicRolls;
+import org.czareg.rolls.ClassicRollsToFramesMapper;
 
 /**
  * Not thread-safe implementation

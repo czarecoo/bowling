@@ -1,12 +1,11 @@
-package org.czareg;
+package org.czareg.frames;
 
 import lombok.RequiredArgsConstructor;
 import org.czareg.api.BonusCalculator;
 import org.czareg.api.Frames;
-import org.czareg.frames.*;
 
 @RequiredArgsConstructor
-public class ClassicBonusCalculator implements BonusCalculator {
+class ClassicBonusCalculator implements BonusCalculator {
 
     private final Frames frames;
 

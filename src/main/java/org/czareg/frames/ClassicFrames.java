@@ -1,18 +1,16 @@
-package org.czareg;
+package org.czareg.frames;
 
 import lombok.RequiredArgsConstructor;
 import org.czareg.api.BonusCalculator;
 import org.czareg.api.Frames;
 import org.czareg.api.Game;
-import org.czareg.frames.Frame;
-import org.czareg.frames.TenthFrame;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-class ClassicFrames implements Frames {
+public class ClassicFrames implements Frames {
 
     private final List<Frame> frames;
 

@@ -1,4 +1,4 @@
-package org.czareg;
+package org.czareg.rolls;
 
 import org.czareg.api.Rolls;
 
@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-class ClassicRolls implements Rolls {
+public class ClassicRolls implements Rolls {
 
     private final List<Integer> rolls = new ArrayList<>();
 
