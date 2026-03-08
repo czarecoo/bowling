@@ -16,10 +16,10 @@ class VirtualGameTests {
 
     @BeforeEach
     void setUp() {
-        game = ClassicGame.create();
+        game = VirtualGame.create();
     }
 
-    @RepeatedTest(100)
+    @RepeatedTest(1000)
     void testConcurrentRollsCausingIncorrectScoring() throws Exception {
         int threads = 10;
         int rollingTasks = 20;

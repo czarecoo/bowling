@@ -5,6 +5,9 @@ import org.czareg.api.Game;
 import org.czareg.api.Rolls;
 import org.czareg.api.RollsToFramesMapper;
 
+/**
+ * Not thread-safe implementation
+ */
 class ClassicGame implements Game {
 
     private final Rolls rolls;
